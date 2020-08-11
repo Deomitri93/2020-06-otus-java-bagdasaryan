@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Executor {
     private static void statisticsMessage(int testsExecutedCounter, int testsPassedCounter){
-        String statisticsMessage = "|   " + testsPassedCounter + " test" + (testsPassedCounter == 1 ? "" : "s" + " of " + testsExecutedCounter + " passed") + "   |";
+        String statisticsMessage = "|   " + testsPassedCounter + " test" + (testsPassedCounter == 1 ? "" : "s" + " of " + testsExecutedCounter + " passed" + (testsExecutedCounter - testsPassedCounter > 0 ? " (failed " + (testsExecutedCounter - testsPassedCounter) + ")" : "")) + "   |";
         String statisticsMessageHBorder = " " + new String(new char[statisticsMessage.length() - 2]).replace('\0', '-') + " ";
         String statisticsMessageMiddlePart = "|" + (new String(new char[statisticsMessage.length() - 2]).replace('\0', ' ')) + "|";
 
