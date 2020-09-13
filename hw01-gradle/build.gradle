@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+group 'ru.otus'
+version '0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+    compile group: 'com.google.common', name: 'google-collect', version: '0.5'
+
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class' : 'ru.otus.HelloOtus'
+    }
+}
