@@ -49,6 +49,7 @@ public class Executor {
         List<Method> beforeMethods = new ArrayList<>();
         List<Method> testMethods = new ArrayList<>();
         List<Method> afterMethods = new ArrayList<>();
+
         for (Method method : clazz.getDeclaredMethods()) {
             if (method.isAnnotationPresent(Test.class)) {
                 testMethods.add(method);
@@ -57,6 +58,7 @@ public class Executor {
                     beforeMethods.add(method);
                 } else {
                     if (method.isAnnotationPresent(After.class)) {
+
                         afterMethods.add(method);
                     }
                 }
@@ -94,6 +96,7 @@ public class Executor {
             // invoking method, annotated with @Test
             testsExecutedCounter++;
             testMethod.setAccessible(true);
+
             try {
                 testMethod.invoke(testedClassInstance);
                 testsPassedCounter++;

@@ -43,6 +43,7 @@ public class TestedClass {
     public void testListOfIntegersAddingRandomIntegerToSpecifiedPosition() {
         System.out.println("method \"testListOfIntegersAddingRandomIntegerToSpecifiedPosition()\" executed");
         Integer addedValue = (int) ((Math.random() - 0.5) * (MAX_INTEGER_VALUES - MIN_INTEGER_VALUES));
+
         listOfIntegers.add(50, addedValue);
     }
 
