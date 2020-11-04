@@ -34,3 +34,4 @@ build
 *.iws
 *.ipr
 *.idea
+/output/
