@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+
+group 'ru.otus'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.ow2.asm:asm-commons'
+}
+
+task shadowProxyASM(type: Jar, dependsOn: shadowJar) {
+    archiveBaseName.set('proxyASM')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.ProxyASM'
+        attributes 'Premain-Class': 'ru.otus.Agent'
+    }
+    from zipTree(shadowJar.archiveFile)
+}
+
+
+tasks.build.dependsOn tasks.shadowProxyASM
