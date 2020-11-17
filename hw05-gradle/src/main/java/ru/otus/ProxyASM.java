@@ -18,7 +18,7 @@ public class ProxyASM {
 //        }
 
 
-        loggedMethodsClass.mustBeLogged("StringParam1");
+        loggedMethodsClass.mustBeLogged(true);
         loggedMethodsClass.notForLogging("StringParam1");
         loggedMethodsClass.mustBeLogged2("StringParam1", 127);
     }

@@ -5,7 +5,7 @@ public class LoggedMethodsClass {
     }
 
     @Log
-    public void mustBeLogged(String param) {
+    public void mustBeLogged(boolean param) {
         System.out.println("mustBeLogged(" + param + ")");
     }
 
@@ -18,7 +18,8 @@ public class LoggedMethodsClass {
         System.out.println("mustBeLogged2(" + param1 + ", " + param2 + ")");
     }
 
-//    public String toString() {
-//        return "MyClassImpl{}";
-//    }
+    @Override
+    public String toString() {
+        return "MyClassImpl{}";
+    }
 }
