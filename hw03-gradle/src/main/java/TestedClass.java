@@ -13,41 +13,42 @@ public class TestedClass {
     private final float MAX_FLOAT_VALUES = 10.0f;
 
     @Before
-    public void initListIntegers(){
+    public void initListIntegers() {
         System.out.println("method \"initListOfIntegers()\" executed");
         listOfIntegers = new ArrayList<>();
-        for(int i = 0; i < LIST_OF_INTEGERS_SIZE; i++){
-            listOfIntegers.add((int)((Math.random() - 0.5)*(MAX_INTEGER_VALUES - MIN_INTEGER_VALUES)));
+        for (int i = 0; i < LIST_OF_INTEGERS_SIZE; i++) {
+            listOfIntegers.add((int) ((Math.random() - 0.5) * (MAX_INTEGER_VALUES - MIN_INTEGER_VALUES)));
         }
     }
 
     @Before
-    public void initMatrix(){
+    public void initMatrix() {
         System.out.println("method \"initMatrix()\" executed");
         matrix = new float[MATRIX_ROWS_COUNT][MATRIX_COLUMNS_COUNT];
-        for (int i = 0; i < MATRIX_ROWS_COUNT; i++){
+        for (int i = 0; i < MATRIX_ROWS_COUNT; i++) {
             for (int j = 0; j < MATRIX_COLUMNS_COUNT; j++) {
-                matrix[i][j] = (float)((Math.random() - 0.5)*(MAX_FLOAT_VALUES - MIN_FLOAT_VALUES));
+                matrix[i][j] = (float) ((Math.random() - 0.5) * (MAX_FLOAT_VALUES - MIN_FLOAT_VALUES));
             }
         }
     }
 
     @Test
-    private void testListOfIntegersAddingRandomInteger(){
+    private void testListOfIntegersAddingRandomInteger() {
         System.out.println("method \"testListOfIntegersAddingRandomInteger()\" executed");
-        Integer addedValue = (int)((Math.random() - 0.5) * (MAX_INTEGER_VALUES - MIN_INTEGER_VALUES));
+        Integer addedValue = (int) ((Math.random() - 0.5) * (MAX_INTEGER_VALUES - MIN_INTEGER_VALUES));
         listOfIntegers.add(addedValue);
     }
 
     @Test
-    public void testListOfIntegersAddingRandomIntegerToSpecifiedPosition(){
+    public void testListOfIntegersAddingRandomIntegerToSpecifiedPosition() {
         System.out.println("method \"testListOfIntegersAddingRandomIntegerToSpecifiedPosition()\" executed");
-        Integer addedValue = (int)((Math.random() - 0.5) * (MAX_INTEGER_VALUES - MIN_INTEGER_VALUES));
+        Integer addedValue = (int) ((Math.random() - 0.5) * (MAX_INTEGER_VALUES - MIN_INTEGER_VALUES));
+
         listOfIntegers.add(50, addedValue);
     }
 
     @Test
-    public void testMatrixTransposing(){
+    public void testMatrixTransposing() {
         System.out.println("method \"testMatrixTransposing()\" executed");
         float[][] matrixTransposed = new float[matrix[0].length][matrix.length];
 
@@ -61,7 +62,7 @@ public class TestedClass {
     }
 
     @After
-    public void nullAll(){
+    public void nullAll() {
         System.out.println("method \"nullAll()\" executed");
         System.out.println();
         listOfIntegers = null;

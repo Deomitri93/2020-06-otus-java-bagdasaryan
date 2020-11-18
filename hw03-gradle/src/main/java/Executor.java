@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Executor {
-    private static void statisticsMessage(int testsExecutedCounter, int testsPassedCounter){
+    private static void statisticsMessage(int testsExecutedCounter, int testsPassedCounter) {
         String statisticsMessage = "|   " + testsPassedCounter + " test" + (testsPassedCounter == 1 ? "" : "s" + " of " + testsExecutedCounter + " passed" + (testsExecutedCounter - testsPassedCounter > 0 ? " (failed " + (testsExecutedCounter - testsPassedCounter) + ")" : "")) + "   |";
         String statisticsMessageHBorder = " " + new String(new char[statisticsMessage.length() - 2]).replace('\0', '-') + " ";
         String statisticsMessageMiddlePart = "|" + (new String(new char[statisticsMessage.length() - 2]).replace('\0', ' ')) + "|";
@@ -22,25 +22,25 @@ public class Executor {
     public static void main(String[] args) throws ClassNotFoundException {
         String testedClassName;
 
-        if(args.length > 0){
+        if (args.length > 0) {
             testedClassName = args[0];
-        }else{
+        } else {
             throw new ClassNotFoundException("No class name passed");
         }
 
         // determining class for passed tested class name
         Class<?> clazz;
-        try{
+        try {
             clazz = Class.forName(testedClassName);
-        }catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             throw new ClassNotFoundException("No class with name '" + testedClassName + "' was found");
         }
 
         // searching default constructor
         Constructor<?> testedClassConstructor = null;
-        try{
+        try {
             testedClassConstructor = clazz.getConstructor();
-        }catch (NoSuchMethodException e){
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
 
@@ -49,14 +49,16 @@ public class Executor {
         List<Method> beforeMethods = new ArrayList<>();
         List<Method> testMethods = new ArrayList<>();
         List<Method> afterMethods = new ArrayList<>();
-        for (Method method: clazz.getDeclaredMethods()){
-            if(method.isAnnotationPresent(Test.class)){
+
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Test.class)) {
                 testMethods.add(method);
-            }else{
-                if(method.isAnnotationPresent(Before.class)){
+            } else {
+                if (method.isAnnotationPresent(Before.class)) {
                     beforeMethods.add(method);
-                }else{
-                    if(method.isAnnotationPresent(After.class)){
+                } else {
+                    if (method.isAnnotationPresent(After.class)) {
+
                         afterMethods.add(method);
                     }
                 }
@@ -67,26 +69,26 @@ public class Executor {
         int testsPassedCounter = 0;
 
         // iterating through all methods, annotated with @Test
-        for(Method testMethod: testMethods){
+        for (Method testMethod : testMethods) {
             // for every method, annotated with @Test, creating new instance of tested class
             Object testedClassInstance = null;
-            try{
-                if(testedClassConstructor != null){
+            try {
+                if (testedClassConstructor != null) {
                     testedClassConstructor.setAccessible(true);
-                }else{
+                } else {
                     throw new NullPointerException();
                 }
                 testedClassInstance = testedClassConstructor.newInstance();
-            }catch (InstantiationException | IllegalAccessException | InvocationTargetException e){
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
 
             // for every method, annotated with @Test, invoking all methods, annotated with @Before
-            for (Method beforeMethod: beforeMethods){
+            for (Method beforeMethod : beforeMethods) {
                 beforeMethod.setAccessible(true);
-                try{
+                try {
                     beforeMethod.invoke(testedClassInstance);
-                }catch (IllegalAccessException | InvocationTargetException e){
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
@@ -94,19 +96,20 @@ public class Executor {
             // invoking method, annotated with @Test
             testsExecutedCounter++;
             testMethod.setAccessible(true);
-            try{
+
+            try {
                 testMethod.invoke(testedClassInstance);
                 testsPassedCounter++;
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             //for every method, annotated with @Test, invoking all methods, annotated with @After
-            for (Method afterMethod: afterMethods){
+            for (Method afterMethod : afterMethods) {
                 afterMethod.setAccessible(true);
-                try{
+                try {
                     afterMethod.invoke(testedClassInstance);
-                }catch (IllegalAccessException | InvocationTargetException e){
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
