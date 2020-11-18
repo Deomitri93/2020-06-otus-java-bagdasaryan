@@ -6,16 +6,16 @@ public class LoggedMethodsClass {
 
     @Log
     public void mustBeLogged(boolean param) {
-        System.out.println("mustBeLogged(" + param + ")");
+
     }
 
-    public void notForLogging(String param) {
-        System.out.println("notForLogging(" + param + ")");
+    public void notForLogging(String param1, byte param2, char param3, short param4) {
+
     }
 
     @Log
-    public void mustBeLogged2(String param1, int param2) {
-        System.out.println("mustBeLogged2(" + param1 + ", " + param2 + ")");
+    public void mustBeLogged2(boolean param1, int param2) {
+
     }
 
     @Override
