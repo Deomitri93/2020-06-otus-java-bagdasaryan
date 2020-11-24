@@ -3,6 +3,7 @@ package ru.otus;
 import ru.otus.handler.ComplexProcessor;
 import ru.otus.listener.homework.ListenerMessageHistory;
 import ru.otus.processor.Processor;
+import ru.otus.processor.homework.DataProviderImpl;
 import ru.otus.processor.homework.LoggerProcessor2SecondsException;
 import ru.otus.processor.homework.ProcessorSwapFields11And12;
 
@@ -24,7 +25,7 @@ public class HomeWork {
            из элеменов "to do" создать new ComplexProcessor и обработать сообщение
          */
 
-        List<Processor> processors = List.of(new LoggerProcessor2SecondsException(new ProcessorSwapFields11And12()));
+        List<Processor> processors = List.of(new LoggerProcessor2SecondsException(new DataProviderImpl()), new ProcessorSwapFields11And12());
         var complexProcessor = new ComplexProcessor(processors, (ex) -> {
             System.out.println("[Exception]: " + ex.getMessage());
         });

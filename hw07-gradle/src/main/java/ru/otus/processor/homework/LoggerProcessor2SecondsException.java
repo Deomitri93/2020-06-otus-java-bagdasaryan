@@ -3,22 +3,20 @@ package ru.otus.processor.homework;
 import ru.otus.Message;
 import ru.otus.processor.Processor;
 
-import java.time.LocalDateTime;
-
 public class LoggerProcessor2SecondsException implements Processor {
-    private final Processor processor;
+    private final DataProvider dataProvider;
 
-    public LoggerProcessor2SecondsException(Processor processor) {
-        this.processor = processor;
+    public LoggerProcessor2SecondsException(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
     }
 
     @Override
     public Message process(Message message) {
-        if (LocalDateTime.now().getSecond() % 2 == 0) {
-            throw new RuntimeException(this.getClass().getName() + " - runtime exception");
+        if (dataProvider.currentSecond() % 2 == 0) {
+            throw new RuntimeException(this.getClass().getName() + " - even second exception");
         }
 
         System.out.println("log processing message:" + message);
-        return processor.process(message);
+        return message;
     }
 }
