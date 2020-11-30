@@ -1,8 +1,9 @@
 package ru.otus;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ObjectForMessage {
+public class ObjectForMessage implements Serializable {
     private List<String> data;
 
     public ObjectForMessage(List<String> data) {
