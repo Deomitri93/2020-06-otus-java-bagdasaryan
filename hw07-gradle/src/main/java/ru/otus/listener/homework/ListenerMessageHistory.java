@@ -2,6 +2,7 @@ package ru.otus.listener.homework;
 
 import ru.otus.Message;
 import ru.otus.listener.Listener;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ public class ListenerMessageHistory implements Listener {
         private final Message newMessage;
         private final LocalDate dateMessage;
 
-        public MessageHistoryRecord(Message oldMessage, Message newMessage, LocalDate dateMessage) throws CloneNotSupportedException {
-            this.oldMessage = (Message) oldMessage.clone();
-            this.newMessage = (Message) newMessage.clone();
+        public MessageHistoryRecord(Message oldMessage, Message newMessage, LocalDate dateMessage) {
+            this.oldMessage = new Message(oldMessage);
+            this.newMessage = new Message(newMessage);
             this.dateMessage = dateMessage;
         }
 
@@ -28,11 +29,7 @@ public class ListenerMessageHistory implements Listener {
 
     @Override
     public void onUpdated(Message oldMsg, Message newMsg) {
-        try {
-            msgHistory.add(new MessageHistoryRecord(oldMsg, newMsg, LocalDate.now()));
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        msgHistory.add(new MessageHistoryRecord(oldMsg, newMsg, LocalDate.now()));
     }
 
     public List<String> printHistory() {

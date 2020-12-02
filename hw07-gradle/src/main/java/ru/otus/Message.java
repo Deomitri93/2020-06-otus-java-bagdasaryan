@@ -2,7 +2,7 @@ package ru.otus;
 
 import java.util.Objects;
 
-public class Message implements Cloneable {
+public class Message {
     private final String field1;
     private final String field2;
     private final String field3;
@@ -33,6 +33,13 @@ public class Message implements Cloneable {
         this.field11 = field11;
         this.field12 = field12;
         this.field13 = field13;
+    }
+
+    public Message(Message message){
+        this(message.field1, message.field2, message.field3, message.field4,
+                message.field5, message.field6, message.field7, message.field8,
+                message.field9, message.field10, message.field11, message.field12,
+                new ObjectForMessage(message.field13.getData()));
     }
 
     public String getField1() {
@@ -150,10 +157,6 @@ public class Message implements Cloneable {
         return new Builder(field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13);
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
     public static class Builder {
         private String field1;
         private String field2;
@@ -254,7 +257,7 @@ public class Message implements Cloneable {
         }
 
         public Message build() {
-            return new Message(field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13);
+            return new Message(field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, new ObjectForMessage(field13.getData()));
         }
     }
 }

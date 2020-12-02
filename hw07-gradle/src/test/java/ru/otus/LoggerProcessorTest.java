@@ -7,6 +7,8 @@ import ru.otus.processor.Processor;
 import ru.otus.processor.homework.DataProvider;
 import ru.otus.processor.homework.LoggerProcessor2SecondsException;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoggerProcessorTest {
