@@ -8,7 +8,7 @@ public class PersonData {
     private final String name;
     private final int age;
     private final Float currentSalary;
-    private final PersonData[] relatives;
+    private PersonData[] relatives;
     private final Collection<String> formerJobs;
     private final boolean primBool = true;
     private final Boolean wrapBool = true;
