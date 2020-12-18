@@ -9,7 +9,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "name")
@@ -18,10 +18,10 @@ public class User {
     @Column(name = "age")
     private Integer age;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private AddressDataSet address;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<PhoneDataSet> phones = new ArrayList<>();
 
     public User() {
@@ -84,7 +84,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", address=" + address +
-                ", phones=" + phones +
+                ", phones=[" + phones + ']' +
                 '}';
     }
 }
