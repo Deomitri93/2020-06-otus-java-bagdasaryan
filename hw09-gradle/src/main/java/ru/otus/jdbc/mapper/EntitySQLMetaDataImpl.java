@@ -24,10 +24,8 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
                 " FROM " + tableName +
                 " WHERE " + idField + " = ?;";
 
-        String[] s = new String[entityClassMetaData.getFieldsWithoutId().size()];
-        Arrays.fill(s, "?");
         insertSql = "INSERT INTO " + tableName + " (" + fieldsWithoutIdCommaSeparated + ")" +
-                " VALUES (" + String.join(",", s) + ");";
+                " VALUES (" + "?,".repeat(entityClassMetaData.getFieldsWithoutId().size() - 1) + "?" + ");";
 
         updateSql = "UPDATE " + tableName + " SET " + fieldsWithoutIdQuestionMarkedCommaSeparated +
                 " WHERE " + idField + " = ?;";

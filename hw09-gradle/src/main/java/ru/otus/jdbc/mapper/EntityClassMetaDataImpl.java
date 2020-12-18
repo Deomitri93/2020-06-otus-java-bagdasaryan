@@ -15,34 +15,50 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private final List<Field> allFields;
     private final List<Field> fieldsWithoutId;
 
-    public EntityClassMetaDataImpl(Class<T> clazz) {
-        name = clazz.getSimpleName();
-
-        Constructor<T> tmpConstructor;
+    private Constructor<T> getDefaultConstructor(Class<T> clazz) {
         try {
-            tmpConstructor = clazz.getConstructor();
+            return clazz.getConstructor();
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Entity class must have Constructor!");
         }
-        constructor = tmpConstructor;
+    }
+
+    private List<Field> getUnannotatedFields(Class<T> clazz) {
+        List<Field> unannotatedFieldsList = new ArrayList<>();
+        for (Field field : allFields) {
+            if (!field.isAnnotationPresent(Id.class)) {
+                unannotatedFieldsList.add(field);
+            }
+        }
+
+        return unannotatedFieldsList;
+    }
+
+    private Field getIdAnnotatedField(Class<T> clazz) {
+        List<Field> idAnnotatedFields = new ArrayList<>();
+        for (Field field : allFields) {
+            if (field.isAnnotationPresent(Id.class)) {
+                idAnnotatedFields.add(field);
+            }
+        }
+
+        if (idAnnotatedFields.size() != 1) {
+            throw new RuntimeException("Entity class must have one and only one @Id annotated field!");
+        }
+
+        return idAnnotatedFields.get(0);
+    }
+
+    public EntityClassMetaDataImpl(Class<T> clazz) {
+        name = clazz.getSimpleName();
+
+        constructor = getDefaultConstructor(clazz);
 
         allFields = Arrays.asList(clazz.getDeclaredFields());
 
-        List<Field> tmpIdFieldsList = new ArrayList<>();
-        fieldsWithoutId = new ArrayList<>();
-        int idAnnotatedCnt = 0;
-        for (Field field : allFields) {
-            if (field.isAnnotationPresent(Id.class)) {
-                idAnnotatedCnt++;
-                tmpIdFieldsList.add(field);
-            } else {
-                fieldsWithoutId.add(field);
-            }
-        }
-        if (idAnnotatedCnt != 1) {
-            throw new RuntimeException("Entity class must have one and only one @Id annotated field!");
-        }
-        idField = tmpIdFieldsList.get(0);
+        idField = getIdAnnotatedField(clazz);
+
+        fieldsWithoutId = getUnannotatedFields(clazz);
     }
 
     @Override

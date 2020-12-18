@@ -5,10 +5,9 @@ import org.slf4j.LoggerFactory;
 import ru.otus.core.sessionmanager.SessionManager;
 import ru.otus.jdbc.DbExecutor;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +20,11 @@ public class JdbcMapperImpl<T> implements JdbcMapper<T> {
     private final EntitySQLMetaData entitySQLMetaData;
     private final SessionManager sessionManager;
     private final DbExecutor<T> dbExecutor;
+
+    private void setFieldValue(Field field, T instance, Object value) throws IllegalAccessException {
+        field.setAccessible(true);
+        field.set(instance, value);
+    }
 
     public JdbcMapperImpl(EntityClassMetaData<T> entityClassMetaData, EntitySQLMetaData entitySQLMetaData, SessionManager sessionManager, DbExecutor<T> dbExecutor) {
         this.entityClassMetaData = entityClassMetaData;
@@ -87,27 +91,26 @@ public class JdbcMapperImpl<T> implements JdbcMapper<T> {
                         var instance = entityClassMetaData.getConstructor().newInstance();
 
                         var idField = entityClassMetaData.getIdField();
-                        idField.setAccessible(true);
-                        idField.set(instance, resultSet.getObject(idField.getName()));
+                        setFieldValue(idField, instance, resultSet.getObject(idField.getName()));
 
                         for (var field : entityClassMetaData.getFieldsWithoutId()) {
-                            field.setAccessible(true);
-                            field.set(instance, resultSet.getObject(field.getName()));
+                            setFieldValue(field, instance, resultSet.getObject(field.getName()));
                         }
 
                         return instance;
                     }
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | SQLException e) {
+                } catch (Exception e) {
                     logger.error(e.getMessage(), e);
                 }
+
                 return null;
             };
 
             return dbExecutor.executeSelect(connection, sqlString, id, instanceFromResultSet);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
-        return Optional.empty();
     }
 
     @Override
