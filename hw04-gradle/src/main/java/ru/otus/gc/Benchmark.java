@@ -1,7 +1,7 @@
 package ru.otus.gc;
 
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class Benchmark implements BenchmarkMBean {
@@ -13,17 +13,16 @@ class Benchmark implements BenchmarkMBean {
     }
 
     void run() throws InterruptedException {
-        List<Object[]> usedObjects = new ArrayList<>();
-
+        List<Object[]> objectsLeaking = new ArrayList<>();
         for (int idx = 0; idx < loopCounter; idx++) {
             int local = size;
             Object[] array = new Object[local];
             for (int i = 0; i < local; i++) {
                 array[i] = new String(new char[0]);
             }
-            usedObjects.add(array);
+            Thread.sleep(1);
 
-            Thread.sleep(5); //Label_1
+            objectsLeaking.add((Arrays.asList(array).subList(0, local/50)).toArray());
         }
     }
 

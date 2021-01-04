@@ -55,7 +55,7 @@ public class GcDemo {
         switchOnMonitoring();
         long beginTime = System.currentTimeMillis();
 
-        int size = 5 * 1000 * 1000;
+        int size = 25 * 100 * 1000;
         int loopCounter = 1000;
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ru.otus:type=Benchmark");
@@ -74,7 +74,6 @@ public class GcDemo {
 
     private static void switchOnMonitoring() {
         List<GarbageCollectorMXBean> gcbeans = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans();
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
 
         for (GarbageCollectorMXBean gcBean : gcbeans) {
             System.out.println("GC name:" + gcBean.getName());
