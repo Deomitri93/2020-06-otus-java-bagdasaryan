@@ -1,0 +1,20 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" content="text/html;">
+<head>
+    <title>Вход</title>
+</head>
+
+<div style="width: 600; height: 500; margin: auto;" class="top">
+    <br/>
+    <img src="img/login.png" style="width: 300; height: 300; margin: auto; display: block;">
+    <br/>
+    <h3 style="text-align:center;">Введите логин и пароль</h3>
+    <br/>
+    <form method='POST' action='/j_security_check'>
+        <input style="margin: auto; display:block;  width: 350; height: 40;" type='text' name='j_username' value='user1'/>
+        <br/>
+        <input style="margin: auto; display:block;  width: 350; height: 40;" type='password' name='j_password' value='11111'/>
+        <br/>
+        <input style="margin: auto; display:block;  width: 350; height: 40;" type='submit' value='Войти'/>
+    </form>
+</div>
+</html>

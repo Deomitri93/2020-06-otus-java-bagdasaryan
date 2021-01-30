@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Администратор</title>
+    <script>
+        function addUser() {
+            let name = document.getElementById("name");
+            let login = document.getElementById("login");
+            let password = document.getElementById("password");
+            let roles = document.getElementById("roles");
+
+            if ((name.value === "")||(login === "")||(password === "")||(roles === "")) {
+                alert("Все поля должны быть заполнены!");
+                return;
+            }
+
+            let err = false;
+            const validValues = ['user', 'admin'];
+            roles.value.replace(/\s+/g, '').split(',').forEach(e => {
+                if(!validValues.includes(e)) {
+                    err = true;
+                }
+            })
+
+            if(err){
+                alert("Значениями поля 'Роли' могут быть " + validValues.map(r => "'"+r+"'").join(" или ") + ", разделенные запятыми!");
+                return;
+            }
+
+            let body = new URLSearchParams();
+            body.append("name", name.value);
+            body.append("login", login.value);
+            body.append("password", password.value);
+            body.append("roles", roles.value);
+
+            name.value = "";
+            login.value = "";
+            password.value = "";
+            roles.value = "";
+
+            fetch('api/admin/', {
+                method: 'POST',
+                body: body,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            });
+
+            location.reload(true);
+        }
+    </script>
+</head>
+
+<body>
+
+<div style="width:700; margin:0 auto;">
+    <h4 style="text-align:center;">Все пользователи</h4>
+    <table style="margin:0 auto;" border="1">
+        <thead bgcolor="lightGray">
+        <tr height="45">
+            <td style="width:75; text-align:center">Id</td>
+            <td style="width:200; text-align:center">Имя</td>
+            <td style="width:100; text-align:center">Логин</td>
+            <td style="width:100; text-align:center">Пароль</td>
+            <td style="width:150; text-align:center">Роли</td>
+        </tr>
+        </thead>
+        <tbody>
+            <tr height="45">
+                <td>
+                    <button style="width:100%; height:40;" onclick="addUser()">Добавить</button>
+                </td>
+                <td>
+                    <input style="width:100%; height:40;" type="text" id="name" name="user_name">
+                </td>
+                <td>
+                    <input style="width:100%; height:40;" type="text" id="login" name="user_login">
+                </td>
+                <td>
+                    <input style="width:100%; height:40;" type="text" id="password" name="user_password">
+                </td>
+                <td>
+                    <input style="width:100%; height:40;" type="text" id="roles" name="user_roles">
+                </td>
+            </tr>
+
+            <#if allUsers??>
+                <#list allUsers as user>
+                    <tr height="45">
+                        <td>
+                            <p>${user.id}</p>
+                        </td>
+                        <td>
+                            <p>${user.name}</p>
+                        </td>
+                        <td>
+                            <p>${user.login}</p>
+                        </td>
+                        <td>
+                            <p>${user.password}</p>
+                        </td>
+                        <td>
+                            <p>${user.roles?map(r -> r.role)?join(", ")}</p>
+                        </td>
+                    </tr>
+                </#list>
+            </#if>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
