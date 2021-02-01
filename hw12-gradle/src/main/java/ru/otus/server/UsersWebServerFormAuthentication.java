@@ -91,7 +91,7 @@ public class UsersWebServerFormAuthentication implements UsersWebServer {
         servletContextHandler.addServlet(new ServletHolder(new UsersServlet(templateProcessor, serviceUserDao)), "/users");
         servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(serviceUserDao, gson)), "/api/user/*");
         servletContextHandler.addServlet(new ServletHolder(new AdminsServlet(templateProcessor, serviceUserDao)), "/admins");
-        servletContextHandler.addServlet(new ServletHolder(new AdminsApiServlet(serviceUserDao)), "/api/admin/*");
+        servletContextHandler.addServlet(new ServletHolder(new AdminsApiServlet(serviceUserDao, gson)), "/api/admin/*");
         servletContextHandler.addServlet(new ServletHolder(new LoginServlet(templateProcessor)), "/login");
 
         return servletContextHandler;
