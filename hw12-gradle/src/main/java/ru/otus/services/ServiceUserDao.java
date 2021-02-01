@@ -1,0 +1,15 @@
+package ru.otus.services;
+
+import ru.otus.model.User;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ServiceUserDao {
+    Optional<User> findById(long id);
+    Optional<User> findRandomUser();
+    Optional<User> findByLogin(String login);
+    Optional<User> findByName(String name);
+    List<User> findAllUsers();
+    long saveUser(User user);
+}
