@@ -8,3 +8,7 @@ include 'hw03-gradle'
 include 'hw06-gradle'
 include 'hw07-gradle'
 
+include 'hw12-gradle'
+include 'hw13-gradle'
+include 'hw14-gradle'
+
