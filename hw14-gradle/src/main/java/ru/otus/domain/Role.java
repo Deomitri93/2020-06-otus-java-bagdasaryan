@@ -11,7 +11,7 @@ public class Role {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "role"/*, unique = true*/)
+    @Column(name = "role")
     private String role;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

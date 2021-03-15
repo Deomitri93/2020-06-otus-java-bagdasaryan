@@ -3,6 +3,7 @@ package ru.otus.domain;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -21,7 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Column(name = "roles")
     Set<Role> roles = new HashSet<>();
 
@@ -85,6 +86,11 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getRolesAsString() {
+        return String.join(",", roles.stream().map(r -> r.getRole()).collect(Collectors.toList()));
+        //this.roles = roles;
     }
 
     @Override

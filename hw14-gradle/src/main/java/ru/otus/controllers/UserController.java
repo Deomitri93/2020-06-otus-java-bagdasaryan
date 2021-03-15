@@ -11,6 +11,7 @@ import ru.otus.domain.User;
 import ru.otus.services.UsersService;
 
 import java.util.List;
+import java.util.Random;
 
 @Controller
 public class UserController {
@@ -29,7 +30,8 @@ public class UserController {
     @GetMapping("/users")
     public String usersView(Model model) {
         List<User> users = usersService.findAll();
-        model.addAttribute("users", users);
+        Random random = new Random();
+        model.addAttribute("randomUser", users.get(random.nextInt(users.size())));
         return "users.html";
     }
 
@@ -42,13 +44,23 @@ public class UserController {
 
     @GetMapping("/admins")
     public String adminsView(Model model) {
+        List<User> users = usersService.findAll();
+        model.addAttribute("users", users);
+        model.addAttribute("user", new User());
         return "admins.html";
     }
 
-//    @PostMapping("/user/save")
-//    public RedirectView userSave(@ModelAttribute User user) {
-//        usersService.save(user);
-//        return new RedirectView("/", true);
+//    @GetMapping("/user/create")
+//    public String userCreateView(Model model) {
+//        model.addAttribute("user", new User());
+//        return "userCreate.html";
 //    }
+
+
+    @PostMapping("/user/save")
+    public RedirectView userSave(@ModelAttribute User user) {
+        usersService.save(user);
+        return new RedirectView("/", true);
+    }
 
 }
