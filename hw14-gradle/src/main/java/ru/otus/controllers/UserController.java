@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.otus.domain.User;
+import ru.otus.domain.UserDTO;
 import ru.otus.services.UsersService;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class UserController {
     public String adminsView(Model model) {
         List<User> users = usersService.findAll();
         model.addAttribute("users", users);
-        model.addAttribute("user", new User());
+        model.addAttribute("newUser", new UserDTO());
         return "admins.html";
     }
 
@@ -58,9 +59,9 @@ public class UserController {
 
 
     @PostMapping("/user/save")
-    public RedirectView userSave(@ModelAttribute User user) {
-        usersService.save(user);
-        return new RedirectView("/", true);
+    public RedirectView userSave(@ModelAttribute UserDTO newUser) {
+        usersService.save(new User(newUser));
+        return new RedirectView("/admins", true);
     }
 
 }

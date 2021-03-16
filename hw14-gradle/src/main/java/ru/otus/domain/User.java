@@ -48,6 +48,13 @@ public class User {
         this.password = user.password;
     }
 
+    public User(UserDTO userDTO){
+        this.name = userDTO.getName();
+        this.login = userDTO.getLogin();
+        this.password = userDTO.getPassword();
+        this.roles = userDTO.getRolesAsSet();
+    }
+
     public long getId() {
         return this.id;
     }
@@ -76,21 +83,12 @@ public class User {
         return this.password;
     }
 
-    public void setPassword(String phone) {
+    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public String getRolesAsString() {
         return String.join(",", roles.stream().map(r -> r.getRole()).collect(Collectors.toList()));
-        //this.roles = roles;
     }
 
     @Override

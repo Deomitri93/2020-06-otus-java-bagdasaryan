@@ -20,8 +20,5 @@ public class test {
         users.add(new User("Джанет Вэрни", "admin4", "admin4"));
         users.add(new User("Брэндон Смит", "admin5", "admin5"));
 
-        List lst = users.stream().flatMap(u -> u.getRoles().stream()).collect(Collectors.toList());
-
-        lst.forEach(System.out::println);
     }
 }
