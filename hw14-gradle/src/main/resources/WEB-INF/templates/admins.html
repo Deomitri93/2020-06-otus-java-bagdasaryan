@@ -5,15 +5,15 @@
     <title>Администратор</title>
 
     <script>
-        function addUser() {
-            let name = document.getElementById("name");
-            let login = document.getElementById("login");
-            let password = document.getElementById("password");
-            let roles = document.getElementById("roles");
+        function check_inputs() {
+            let name = document.getElementById("input-name");
+            let login = document.getElementById("input-login");
+            let password = document.getElementById("input-password");
+            let roles = document.getElementById("input-roles");
 
-            if ((name.value === "")||(login === "")||(password === "")||(roles === "")) {
+            if ((name.value === "")||(login.value === "")||(password.value === "")||(roles.value === "")) {
                 alert("Все поля должны быть заполнены!");
-                return;
+                return false;
             }
 
             let err = false;
@@ -26,32 +26,11 @@
 
             if(err){
                 alert("Значениями поля 'Роли' могут быть " + validValues.map(r => "'"+r+"'").join(" или ") + ", разделенные запятыми!");
-                return;
+                return false;
             }
 
-            let body = new URLSearchParams();
-            body.append("name", name.value);
-            body.append("login", login.value);
-            body.append("password", password.value);
-            body.append("roles", roles.value);
-
-            name.value = "";
-            login.value = "";
-            password.value = "";
-            roles.value = "";
-
-            fetch('api/admin/', {
-                method: 'POST',
-                body: body,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            });
-
-            location.reload(true);
+            return true;
         }
-
-
     </script>
 </head>
 
@@ -60,7 +39,7 @@
 <div style="width:700px; margin:0 auto;">
     <h4 style="text-align:center;">Все пользователи</h4>
 
-    <form id="create-form" th:action="@{/user/save}" th:object="${newUser}" th:method="post" accept-charset="utf-8">
+    <form id="create-form" th:action="@{/user/save}" th:object="${newUser}" th:method="post" accept-charset="utf-8" onsubmit="return check_inputs()">
 
         <table style="margin:0 auto;" border="1">
             <thead bgcolor="lightGray">
@@ -77,28 +56,29 @@
             <tr height="45">
                 <td>
 <!--        <div>-->
-                    <button style="box-sizing: border-box; width:100%; height:40px;" type="submit">Добавить</button>
+<!--                    <button style="box-sizing: border-box; width:100%; height:40px;" type="submit">Добавить</button>-->
+                    <input style="box-sizing: border-box; width:100%; height:40px;" type="submit" value="Добавить"/>
 <!--        </div>-->
                 </td>
                 <td>
 <!--        <div>-->
-<!--            <label for="holder-input-name">Name:</label>-->
-                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="holder-input-name"
+<!--            <label for="input-name">Name:</label>-->
+                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="input-name"
                            name="name" th:value="${newUser.name}" value="John Doe"/>
                 </td>
                 <td>
-<!--            <label for="holder-input-login">Login:</label>-->
-                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="holder-input-login"
+<!--            <label for="input-login">Login:</label>-->
+                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="input-login"
                            name="login" th:value="${newUser.login}" value="sa"/>
                 </td>
                 <td>
-<!--            <label for="holder-input-password">Password:</label>-->
-                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="holder-input-password"
+<!--            <label for="input-password">Password:</label>-->
+                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="input-password"
                            name="password" th:value="${newUser.password}" value="sa"/>
                 </td>
                 <td>
-<!--            <label for="holder-input-roles">Roles:</label>-->
-                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="holder-input-roles"
+<!--            <label for="input-roles">Roles:</label>-->
+                    <input style="box-sizing: border-box; width:100%; height:40px;" type="text" id="input-roles"
                            name="roles" th:value="${newUser.roles}" value="user"/>
 <!--        </div>-->
                 </td>

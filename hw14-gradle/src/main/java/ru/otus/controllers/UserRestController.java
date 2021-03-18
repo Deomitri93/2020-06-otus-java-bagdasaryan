@@ -32,5 +32,4 @@ public class UserRestController {
     public User findRandom() {
         return usersService.findRandom();
     }
-
 }

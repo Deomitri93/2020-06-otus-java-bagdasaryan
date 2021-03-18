@@ -11,17 +11,13 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryHibernateImpl implements UserRepository {
-    private SessionFactory sessionFactory;
-
     @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    private SessionFactory sessionFactory;
 
     @Override
     public List<User> findAll() {
         Session session = this.sessionFactory.openSession();
-        List<User> userList = session.createQuery("from User").list();
+        List<User> userList = session.createQuery("from User", User.class).list();
         session.close();
 
         return userList;
@@ -41,7 +37,7 @@ public class UserRepositoryHibernateImpl implements UserRepository {
     @Override
     public User findById(long id) {
         Session session = this.sessionFactory.openSession();
-        List<User> userList = session.createQuery("from User U where U.id = " + id).list();
+        List<User> userList = session.createQuery("from User U where U.id = " + id, User.class).list();
         session.close();
 
         return userList.get(0);
@@ -50,7 +46,7 @@ public class UserRepositoryHibernateImpl implements UserRepository {
     @Override
     public User findByName(String name) {
         Session session = this.sessionFactory.openSession();
-        List<User> userList = session.createQuery("from User U where U.name = \'" + name + "\'").list();
+        List<User> userList = session.createQuery("from User U where U.name = '" + name + "'", User.class).list();
         session.close();
 
         return userList.get(0);

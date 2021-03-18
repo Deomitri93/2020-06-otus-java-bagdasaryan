@@ -6,10 +6,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
-import javax.servlet.ServletRegistration;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    //https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -25,8 +23,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-
-
 
     @Override
     protected Filter[] getServletFilters() {

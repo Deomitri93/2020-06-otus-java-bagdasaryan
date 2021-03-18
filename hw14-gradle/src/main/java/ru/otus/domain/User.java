@@ -48,7 +48,7 @@ public class User {
         this.password = user.password;
     }
 
-    public User(UserDTO userDTO){
+    public User(UserDTO userDTO) {
         this.name = userDTO.getName();
         this.login = userDTO.getLogin();
         this.password = userDTO.getPassword();
@@ -88,7 +88,7 @@ public class User {
     }
 
     public String getRolesAsString() {
-        return String.join(",", roles.stream().map(r -> r.getRole()).collect(Collectors.toList()));
+        return roles.stream().map(Role::getRole).collect(Collectors.joining(","));
     }
 
     @Override

@@ -1,9 +1,10 @@
 package ru.otus.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.domain.Role;
 import ru.otus.domain.User;
-import ru.otus.repostory.UserRepository;
+import ru.otus.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -13,16 +14,12 @@ import java.util.Random;
 
 @Service
 public class UsersServiceImpl implements UsersService {
-
-    private final UserRepository userRepository;
-
-    public UsersServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @PostConstruct
     public void init() {
-        this.save(new User("Крис Гир", "admin1", "admin1", new HashSet<Role>(Arrays.asList(new Role("user"), new Role("admin")))));
+        this.save(new User("Крис Гир", "admin1", "admin1", new HashSet<>(Arrays.asList(new Role("user"), new Role("admin")))));
         this.save(new User("Ая Кэш", "user1", "user1"));
         this.save(new User("Десмин Боргес", "user2", "user2"));
         this.save(new User("Кетер Донохью", "user3", "user3"));
