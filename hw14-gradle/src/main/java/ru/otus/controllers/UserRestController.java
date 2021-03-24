@@ -6,7 +6,6 @@ import ru.otus.services.UsersService;
 
 @RestController
 public class UserRestController {
-
     private final UsersService usersService;
 
     public UserRestController(UsersService usersService) {
