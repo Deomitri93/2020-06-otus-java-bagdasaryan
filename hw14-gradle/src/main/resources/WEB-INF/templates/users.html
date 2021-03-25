@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Пользователь</title>
+
+    <script>
+        function getUserById() {
+            const userIdTextBox = document.getElementById('userIdTextBox');
+            const id = userIdTextBox.value;
+            fetch('api/user/' + id).then((response) => {
+                return response.json();
+            }).then((data) => {
+                document.getElementById('userDataId').innerHTML = data.id;
+                document.getElementById('userDataName').innerHTML = data.name;
+                document.getElementById('userDataLogin').innerHTML = data.login;
+                document.getElementById('userDataPassword').innerHTML = data.password;
+                document.getElementById('userDataRoles').innerHTML = data.roles.map(role => role.role).join(", ");
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div style="width:700px; margin:0 auto;">
+        <br/>
+
+        <h4 style="text-align:center;">Получить пользователя по id</h4>
+        <div style="width:300px; margin:0 auto;">
+            <input style="box-sizing: border-box; width:300px; height:45px; margin:0 auto;" type="text" id="userIdTextBox"
+                   value="1" placeholder="Введите id пользователя">
+
+            <br/>
+
+            <button style="width:300px; height:45px; margin:0 auto;" onclick="getUserById()">Получить</button>
+        </div>
+
+        <br/>
+
+        <table style="margin:0 auto;" border="1" class="users">
+            <thead bgcolor="lightGray">
+                <tr height="45">
+                    <td style="width:50px; text-align:center">Id</td>
+                    <td style="width:200px; text-align:center">Имя</td>
+                    <td style="width:100px; text-align:center">Логин</td>
+                    <td style="width:100px; text-align:center">Пароль</td>
+                    <td style="width:150px; text-align:center">Роли</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr height="45">
+                    <td>
+                        <p id="userDataId"></p>
+                    </td>
+                    <td>
+                        <p id="userDataName"></p>
+                    </td>
+                    <td>
+                        <p id="userDataLogin"></p>
+                    </td>
+                    <td>
+                        <p id="userDataPassword"></p>
+                    </td>
+                    <td>
+                        <p id="userDataRoles"></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br/><br/><br/>
+
+    <div style="width:700px; margin:0 auto;">
+        <h4 style="text-align:center;">Случайный пользователь</h4>
+
+        <table style="margin:0 auto;" border="1">
+            <thead bgcolor="lightGray">
+                <tr height="45">
+                    <td style="width:50px; text-align:center">Id</td>
+                    <td style="width:200px; text-align:center">Имя</td>
+                    <td style="width:100px; text-align:center">Логин</td>
+                    <td style="width:100px; text-align:center">Пароль</td>
+                    <td style="width:150px; text-align:center">Роли</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr height="45">
+                    <td>
+                        <p th:text="${randomUser.id}">1</p>
+                    </td>
+                    <td>
+                        <p th:text="${randomUser.name}">John Doe</p>
+                    </td>
+                    <td>
+                        <p th:text="${randomUser.login}">sa</p>
+                    </td>
+                    <td>
+                        <p th:text="${randomUser.password}">sa</p>
+                    </td>
+                    <td>
+                        <p th:text="${randomUser.getRolesAsString()}">user</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
