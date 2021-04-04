@@ -1,0 +1,158 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Главная</title>
+<!--    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link href="/main.css" rel="stylesheet">-->
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<!--    <script src="/app.js"></script>-->
+
+</head>
+
+<body>
+<div>
+    <form>
+        <label id="randomUserLabel">Message</label>
+        <br/>
+<!--        <button id="getRandomUser" type="submit">Get random user</button>-->
+        <input type="button" value="randomUser" style="height: 40px;" onclick="getRandomUser()">
+    </form>
+</div>
+
+    <div style="width: 600; height: 500; margin: auto;" class="top">
+        <br/>
+        <img src="static/img/logo.svg" style="width: 300; height: 300; margin: auto; display: block;">
+        <br/>
+        <h3 style="text-align:center;">Добро пожаловать на стартовую страницу примера</h3>
+        <br/>
+        <form action="users">
+            <input style="margin: auto; display:block;  width: 350; height: 40;" type="submit" value="Пользователь"/>
+        </form>
+
+        <form action="admins">
+            <input style="margin: auto; display:block;  width: 350; height: 40;" type="submit" value="Администратор"/>
+        </form>
+    </div>
+
+
+
+
+<!--<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being-->
+<!--    enabled. Please enable-->
+<!--    Javascript and reload this page!</h2></noscript>-->
+<!--<div id="main-content" class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-6">-->
+<!--            <form class="form-inline">-->
+<!--                <div class="form-group">-->
+<!--                    <input type="text" id="roomId" class="form-control" placeholder="chat room Id">-->
+<!--                    <button id="connect" class="btn btn-default" type="submit">Connect</button>-->
+<!--                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <form class="form-inline">-->
+<!--                <div class="form-group">-->
+<!--                    <label for="message">Message</label>-->
+<!--                    <input type="text" id="message" class="form-control" placeholder="type a message...">-->
+<!--                </div>-->
+<!--                <button id="send" class="btn btn-default" type="submit">Send</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            <table id="conversation" class="table table-striped">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th>Chat line</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody id="chatLine"></tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+</body>
+
+<script>
+        const stompClient = Stomp.over(new SockJS('/websocket-demo'));
+        const uuid = uuidv4();
+
+        function bodyOnLoad() {
+            stompClient.connect({}, () => {
+<!--                stompClient.subscribe('/topic/allUsers', (response) => {-->
+<!--                    updateUsers(JSON.parse(response.body));-->
+<!--                });-->
+
+<!--                stompClient.subscribe('/topic/randomUser.${uuid}', (response) => {-->
+                stompClient.subscribe('/topic/randomUser.${uuid}', (response) => {
+                    alert("got response for getRandomUser");
+                    showRandomUser(JSON.parse(response.body));
+                });
+
+<!--                stompClient.subscribe('/topic/sessionErrors.${sessionId}', (response) => {-->
+<!--                    alert(JSON.parse(response.body).message);-->
+<!--                });-->
+
+<!--                getAllAsync();-->
+            });
+
+<!--            stompClient.send('/app/getAllUsers.${uuid}', {}, {});-->
+        }
+
+        function showRandomUser(user) {
+            let label = document.getElementById("randomUserLabel");
+            label.value = user.name;
+        }
+
+        function getRandomUser() {
+            alert("getRandomUser")
+
+<!--            stompClient.send('/app/getRandomUser.${uuid}', {}, {});-->
+            stompClient.send('/app/getRandomUser.1', {}, {});
+        }
+
+        function uuidv4() {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+        }
+
+
+
+        function drawUsers() {
+            let tableRows = "";
+
+            for (let i = 0; i < usersList.length; i++) {
+                let user = usersList[i];
+                console.log(user)
+                tableRows += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.address}</td>
+                        <td>${user.phone}</td>
+                    </tr>`;
+            }
+
+            let table = document.getElementById("usersTable");
+            table.innerHTML = `
+                <thead>
+                <tr style="border-bottom:solid 1px black;">
+                    <td style="width: 50px">Id</td>
+                    <td style="width: 150px">Name</td>
+                    <td style="width: 100px">Address</td>
+                    <td style="width: 100px">Phone</td>
+                </tr>
+                <tr><td colspan="4" class="divider"><hr/></td></tr>
+            </thead>
+            <tbody>
+                ${tableRows}
+            </tbody>`;
+        }
+    </script>
+</html>
